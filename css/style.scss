@@ -1,0 +1,176 @@
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
+:root {
+	--color1: #F8B78B;
+	--color2: #FCB173;
+}
+
+html {
+	box-sizing: border-box;
+	font-size: 62.5%;
+}
+
+*, *:before, *:after {
+	box-sizing: inherit;
+}
+
+body {
+	font-family: Perpetua;
+	background-color: var(--color1);
+	background-image: url(../img/background_login.svg);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+}
+
+.container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+}
+
+.container .login {
+	width: 400px;
+	border-radius: 12px;
+	overflow: hidden;
+
+	&-header {
+		font-family: monospace;
+		font-size: 25px;
+		font-weight: bold;
+		font-style: italic;
+		text-align: center;
+		color: #2E2037;
+
+		img {
+			display: block;
+			margin: auto;
+			margin-bottom: 30px;
+			width: 40%;
+		}
+	}
+
+	&-body {
+		background-color: rgba(255, 230, 216, .8);
+		opacity: 50;
+		border: none;
+		border-radius: 15px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding: 20px;
+
+		&-user {
+			opacity: 200;
+			top: 10px;
+			display: flex;
+			align-items: center;
+			gap: 20px;
+
+			&-icon span {
+				font-size: 50px;
+				cursor: default;
+			}
+
+			&-input input {
+				background-color: transparent;
+				color: #260101;
+				border: solid 1px #2E2037;
+				border-radius: 8px;
+				outline: none;
+				padding: 5px;
+				font-size: 20px;
+				font-weight: bold;
+
+				&:focus-within {
+					box-shadow: 0px 0px 3px black;
+				}
+			}
+		}
+
+		&-password {
+			opacity: 200;
+			padding-top: 15px;
+			top: 10px;
+			display: flex;
+			align-items: center;
+			gap: 20px;
+
+			&-icon span {
+				font-size: 50px;
+				cursor: default;
+			}
+
+			&-input input {
+				background-color: transparent;
+				color: #260101;
+				border: solid 1px #2E2037;
+				border-radius: 8px;
+				outline: none;
+				padding: 5px;
+				font-size: 20px;
+				font-weight: bold;
+
+				&:focus-within {
+					box-shadow: 0px 0px 3px black;
+				}
+			}
+		}
+	}
+
+	&-footer {
+		margin-top: 20px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 10px;
+
+		&-button button {
+			background-color: #B6738C;
+			border: none;
+			width: 200px;
+			min-width: 120px;
+			border-radius: 10px;
+			outline: none;
+			cursor: pointer;
+			color: #2E2037;
+			font-size: 20px;
+			font-weight: bold;
+		}
+
+		&-register a {
+			text-decoration: none;
+			width: 200px;
+			min-width: 120px;
+			cursor: pointer;
+			color: #FEF6E1;
+			font-size: 15px;
+			font-weight: bold;
+		}
+	}
+}
