@@ -1,10 +1,10 @@
 -- Create database
-DROP DATABASE IF EXISTS DbStutendCalendar;
+DROP DATABASE IF EXISTS DbStudentCalendar;
 -- CREATE DATABASE IF NOT EXISTS BDPrestamos;
-CREATE DATABASE DbStutendCalendar;
+CREATE DATABASE DbStudentCalendar;
 -- DROP DATABASE BDPrestamos;
 -- Use database
-USE DbStutendCalendar;
+USE DbStudentCalendar;
 
 -- --------------------------------
 -- Table TUser

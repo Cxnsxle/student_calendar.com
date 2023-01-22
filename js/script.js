@@ -59,5 +59,3 @@ function showFrmRegister (){
 		backTextLogin.style.opacity = "1";
 	}
 }
-
-widthPage();
