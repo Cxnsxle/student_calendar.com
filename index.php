@@ -2,7 +2,7 @@
 	session_start();
 
 	if (isset($_SESSION['SESSION_USER'])) {
-		header('location: ./welcome.php');
+		header('location: ./insert_courses.php');
 		exit();
 	}
 ?>

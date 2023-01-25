@@ -1,0 +1,130 @@
+:root {
+  --color1: #F8B78B;
+  --color2: #FCB173; }
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+  font-family: 'Roboto', sans-serif; }
+
+*, *:before, *:after {
+  box-sizing: inherit; }
+
+body {
+  background-image: url(../img/background_login.svg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  margin: 0 auto;
+  text-align: center; }
+
+.signOutButton-container {
+  text-align: right; }
+  .signOutButton-container button {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    background: #4f2d48;
+    outline: none;
+    cursor: pointer;
+    color: #FEF9EB; }
+    .signOutButton-container button:hover {
+      background: #FEF9EB;
+      color: #4f2d48; }
+
+.container {
+  display: block; }
+  .container-form {
+    padding: 20px 0px;
+    background-color: rgba(79, 45, 72, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 15px;
+    margin: 10px auto;
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; }
+    .container-form-courseCode, .container-form-courseName, .container-form-credits, .container-form-courseGroup {
+      display: flex;
+      justify-content: space-between;
+      max-width: 700px;
+      width: 600px; }
+      .container-form-courseCode label, .container-form-courseName label, .container-form-credits label, .container-form-courseGroup label {
+        font-size: 15px;
+        color: #FEF9EB;
+        margin-right: 0; }
+      .container-form-courseCode input, .container-form-courseCode select, .container-form-courseName input, .container-form-courseName select, .container-form-credits input, .container-form-credits select, .container-form-courseGroup input, .container-form-courseGroup select {
+        font-size: 17px;
+        font-weight: 350;
+        padding: 2px;
+        border: none;
+        border-radius: 2px;
+        background: #FEF9EB; }
+    .container-form-schedule {
+      max-width: 700px;
+      width: 600px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px; }
+      .container-form-schedule div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 5px; }
+        .container-form-schedule div label {
+          font-size: 15px;
+          color: #FEF9EB;
+          margin-right: 0; }
+        .container-form-schedule div input, .container-form-schedule div select {
+          font-size: 17px;
+          font-weight: 350;
+          padding: 2px;
+          border: none;
+          border-radius: 2px;
+          background: #FEF9EB; }
+    .container-form-button button {
+      margin-top: 10px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      font-size: 18px;
+      background: #4f2d48;
+      outline: none;
+      cursor: pointer;
+      color: #FEF9EB; }
+      .container-form-button button:hover {
+        background: #FEF9EB;
+        color: #AA698B; }
+  .container-table {
+    border: 1px solid #FEF9EB;
+    border-radius: 5px;
+    margin: 0 auto;
+    backdrop-filter: blur(10px);
+    background-color: rgba(79, 45, 72, 0.5); }
+    .container-table td, .container-table th {
+      padding: 5px;
+      font-size: 15px;
+      text-align: center;
+      border: 1px solid #FEF9EB;
+      border-radius: 5px;
+      color: #FEF9EB; }
+
+#courseCode {
+  width: 300px; }
+
+#courseName {
+  width: 400px; }
+
+@media screen and (max-width: 850px) {
+  .container-form div {
+    flex-direction: column;
+    align-items: center;
+    gap: 5px; }
+    .container-form div input {
+      max-width: 300px; } }
+
+/*# sourceMappingURL=insert_courses_style.css.map */

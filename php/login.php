@@ -33,7 +33,7 @@
 	}
 	else {
 		$_SESSION['SESSION_USER'] = $user;
-		header('location: ../welcome.php');
+		header('location: ../insert_courses.php');
 		exit();
 	}
 ?>
