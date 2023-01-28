@@ -1,5 +1,6 @@
 const form = document.getElementById("courseForm");
 const signOut = document.getElementById("btn-signOut");
+const table = document.getElementById("coursesTable");
 
 // listener for submit event and disable refresh page
 form.addEventListener("submit", function(event) {
@@ -14,6 +15,9 @@ form.addEventListener("submit", function(event) {
 
 	// insert new row
 	insertRowInCoursesTable(courseObj);
+
+	// reset form (initial values)
+	form.reset();
 });
 
 // listener for DOMContentLoad event
@@ -28,6 +32,41 @@ document.addEventListener("DOMContentLoaded", function(event) {
 signOut.addEventListener("click", () => {
 	localStorage.clear();
 });
+
+// listener for click event in delete button in coursesTable
+table.addEventListener("click", event => {
+	event.stopPropagation();
+	// capture the row index and cell span to do delete course properly
+	let thisRowIndex = parseInt(event.target.parentNode.parentNode.rowIndex);
+	let thisCellSpan = parseInt(event.target.parentNode.getAttribute("rowspan"));
+
+	if (!isNaN(thisRowIndex) && !isNaN(thisCellSpan)) {
+		// delete course from table
+		for (let i = 0; i < thisCellSpan; i++) {
+			table.deleteRow(thisRowIndex);
+		}
+
+		// get crsId
+		let crsId = event.target.parentNode.parentNode.getAttribute("data-crsId");
+		console.log("Id_eliminar: " + crsId);
+		// remove course from local-storage
+		removeCorseFromLocalStorage(crsId);
+	}
+});
+
+// function to remove from local-storage an course by Id
+function removeCorseFromLocalStorage(crsId) {
+	// capture the history - validation if coursesData == ""
+	let courseObjArr = JSON.parse(localStorage.getItem("coursesData"));
+	// get index
+	let courseIndexInArray = courseObjArr.findIndex(element => element.crsId == crsId);
+	if (courseIndexInArray !== -1) {
+		courseObjArr.splice(courseIndexInArray, 1);
+	}
+	// remove and save
+	let courseArrayJSON = JSON.stringify(courseObjArr);
+	localStorage.setItem("coursesData", courseArrayJSON);
+}
 
 // function to save courseObj in local-storage (save history)
 function saveCourseObj(courseObj) {
@@ -56,6 +95,8 @@ function convertFormDataToCourseObj(courseFormData) {
 	let crsSchedule_VS = courseFormData.get("schedule_VS");
 	let crsHr_VS_in = courseFormData.get("hour_VS_in");
 	let crsHr_VS_out = courseFormData.get("hour_VS_out");
+	// courseId to delete later
+	let crsId = getNewCourseId();
 
 	// return obj
 	return {
@@ -63,7 +104,18 @@ function convertFormDataToCourseObj(courseFormData) {
 		"schedule_LM" : crsSchedule_LM, "hour_LM_in" : crsHr_LM_in, "hour_LM_out" : crsHr_LM_out,
 		"schedule_MJ" : crsSchedule_MJ, "hour_MJ_in" : crsHr_MJ_in, "hour_MJ_out" : crsHr_MJ_out,
 		"schedule_VS" : crsSchedule_VS, "hour_VS_in" : crsHr_VS_in, "hour_VS_out" : crsHr_VS_out,
+		"crsId" : crsId
 	}
+}
+
+// capture from local-storage the last generated course Id and add its in one
+function getNewCourseId() {
+	let newCourseId = parseInt(localStorage.getItem("lastCourseId") || "-1") + 1;
+
+	// set atribute on local storage
+	localStorage.setItem("lastCourseId", newCourseId.toString());
+
+	return newCourseId;
 }
 
 // function to insert rows in table when an subnit event sent
@@ -74,6 +126,8 @@ function insertRowInCoursesTable(courseObj) {
 	// add a new row in the coursesTable (new row visibly, it's actually 2 or 3 rows per course)
 	// add 2 rows by default
 	let newCourseRowRef_1 = coursesTableRef.insertRow(-1);
+	// set data-attribute for the courseId from local-storage
+	newCourseRowRef_1.setAttribute("data-crsId", courseObj["crsId"]);
 	let newCourseRowRef_2 = coursesTableRef.insertRow(-1);
 
 	let newCourseRowRef_3 = null;
@@ -127,4 +181,11 @@ function insertRowInCoursesTable(courseObj) {
 		newCourseCellRef = newCourseRowRef_3.insertCell(2);
 		newCourseCellRef.textContent = courseObj["hour_VS_out"];
 	}
+
+	// delete button
+	let newDeleteCellRef = newCourseRowRef_1.insertCell(7);
+	newDeleteCellRef.setAttribute("rowspan", auxSpan);
+	let deleteButton = document.createElement("button");
+	deleteButton.textContent = "ELIMINAR";
+	newDeleteCellRef.appendChild(deleteButton);
 }

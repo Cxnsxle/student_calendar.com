@@ -143,6 +143,7 @@
 				<th>Creditos</td>
 				<th>Grupo</td>
 				<th colspan="3">Horarios</td>
+				<th>Eliminar</td>
 			</tr>
 		</table>
 	</div>
