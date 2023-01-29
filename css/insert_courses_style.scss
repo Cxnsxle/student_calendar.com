@@ -146,6 +146,25 @@ body {
 			color: #FEF9EB;
 		}
 	}
+
+	&-button_generator {
+		a button {
+			margin-top: 20px;
+			padding: 10px;
+			border: none;
+			border-radius: 5px;
+			font-size: 14px;
+			background: rgb(79, 45, 72);
+			outline: none;
+			cursor: pointer;
+			color: #FEF9EB;
+
+			&:hover {
+				background: #FEF9EB;
+				color: rgb(79, 45, 72);
+			}
+		}
+	}
 }
 
 #courseCode {

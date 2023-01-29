@@ -112,6 +112,19 @@ body {
       border: 1px solid #FEF9EB;
       border-radius: 5px;
       color: #FEF9EB; }
+  .container-button_generator a button {
+    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    background: #4f2d48;
+    outline: none;
+    cursor: pointer;
+    color: #FEF9EB; }
+    .container-button_generator a button:hover {
+      background: #FEF9EB;
+      color: #4f2d48; }
 
 #courseCode {
   width: 300px; }
