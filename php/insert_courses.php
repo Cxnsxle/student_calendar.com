@@ -77,8 +77,7 @@
 				<input required id="courseName" type="text" name="courseName">
 			</div>
 			<div class="container-form-credits">
-				<label for="courseCredits">Creditos:</label>
-				<input required min="2" max="5" id="courseCredits" type="number" name="courseCredits">
+				<label for="courseCredits">Creditos:</label> <input required min="2" max="5" id="courseCredits" type="number" name="courseCredits">
 			</div>
 			<div class="container-form-courseGroup">
 				<label for="courseGroup">Grupo:</label>

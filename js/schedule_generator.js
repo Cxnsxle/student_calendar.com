@@ -1,7 +1,128 @@
-// call function to generate schedules
-generateSchedules();
+const formCredits = document.getElementById("creditsForm");
 
-function generateSchedules() {
+// listener for DOMContentLoad event
+document.addEventListener("DOMContentLoaded", () => {
+	localStorage.setItem("coursesDataProcessed", null);
+});
+
+// listener for DOMContentLoad event
+formCredits.addEventListener("submit", event => {
+	// reset tables
+	localStorage.setItem("coursesDataProcessed", null);
+	// get div-container that contains the tables
+	let divTablesContainerRef = document.getElementById("container-tables_container");
+	divTablesContainerRef.innerHTML = "";
+
+	event.preventDefault();
+	
+	// capture the formCredits as FormData and get credits data
+	let creditsFormData = new FormData(formCredits);
+	let minCredits = parseInt(creditsFormData.get("min_credits"));
+	let maxCredits = parseInt(creditsFormData.get("max_credits"));
+	// call function to generate schedules
+	let eliteSchedules = generateSchedules(minCredits, maxCredits);
+
+	// first sort descending
+	eliteSchedules.sort((a, b) => b[1] - a[1]);
+	// get the top 10 schedules
+	let limit = eliteSchedules.length >= 10 ? 10 : eliteSchedules.length;
+	let eliteSchedulesTopTen = eliteSchedules.slice(0, limit);
+
+	// add pre-data table with courses with your names and color
+	let coursesPreData = addPreDataTable(divTablesContainerRef);
+	// fill tables
+	eliteSchedulesTopTen.forEach(element => {
+		insertScheduleTable(element[0], divTablesContainerRef, coursesPreData);
+	});
+});
+
+// function to insert table with pre-data (courseIds, names and colors)
+function addPreDataTable(divTablesContainerRef) {
+	// add table to fill schedule
+	let newTableRef = document.createElement("table");
+	divTablesContainerRef.appendChild(newTableRef);
+
+	// add header to the table
+	let header = ["CODIGO", "NOMBRE", "COLOR"];
+	let newRowHeaderRef = document.createElement("tr");
+	header.forEach(h_el => {
+		let newCellHeaderRef = document.createElement("th");
+		newCellHeaderRef.innerText = h_el;
+		newRowHeaderRef.appendChild(newCellHeaderRef);
+	});
+	newTableRef.appendChild(newRowHeaderRef);
+
+	// get data from local-storage
+	let coursesObjArr = JSON.parse(localStorage.getItem("coursesData"));
+	let coursesPreData = {};
+	coursesObjArr.forEach((element) => {
+		coursesPreData[element.courseCode] = [element.courseName, getRandomColor()];
+	});
+
+	coursesObjArr.forEach(element => {
+		let newRowRef = newTableRef.insertRow(-1);
+		newRowRef.style.backgroundColor = coursesPreData[element.courseCode][1];
+		let newCellRef = newRowRef.insertCell(0);
+		newCellRef.textContent = element.courseCode;
+		newCellRef = newRowRef.insertCell(1);
+		newCellRef.textContent = coursesPreData[element.courseCode][0];
+		newCellRef = newRowRef.insertCell(2);
+		newCellRef.textContent = coursesPreData[element.courseCode][1];
+	});
+
+	return coursesPreData;
+}
+
+// function to return a hexdecimal random color
+function getRandomColor() {
+	let letters = "0123456789ABCDEF";
+	let color = "#";
+
+	for (let i = 0; i < 6; i++) {
+		color += letters[Math.floor(Math.random() * 16)];
+	}
+
+	return color;
+}
+
+// function to insert top ten schedule tables when an subnit event sent
+function insertScheduleTable(schedule, divTablesContainerRef, coursesPreData) {
+	// add table to fill schedule
+	let newTableRef = document.createElement("table");
+	divTablesContainerRef.appendChild(newTableRef);
+
+	// add header to the table
+	let header = ["HORA", "LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES", "SABADO"];
+	let newRowHeaderRef = document.createElement("tr");
+	header.forEach(h_el => {
+		let newCellHeaderRef = document.createElement("th");
+		newCellHeaderRef.innerText = h_el;
+		newRowHeaderRef.appendChild(newCellHeaderRef);
+	});
+	newTableRef.appendChild(newRowHeaderRef);
+
+	// get transposed matrix of schedule
+	schedule = transposeMatrix(schedule);
+	// add and fill schedule 
+	let hour_ = 7;
+	schedule.forEach(hour => {
+		let newRowRef = newTableRef.insertRow(-1);
+		// and hours
+		let newCellRef = newRowRef.insertCell(0);
+		newCellRef.textContent = hour_.toString() + "-" + (hour_ + 1).toString();
+		hour_++;
+		hour.forEach((day, index) => {
+			newCellRef = newRowRef.insertCell(index + 1);
+			newCellRef.textContent = day;
+			// set color
+			if (day != "") {
+				newCellRef.style.backgroundColor = coursesPreData[day][1];
+			}
+		});
+	});
+}
+
+function generateSchedules(minCredits, maxCredits) {
 	// get data from local-storage
 	let coursesObjArr = JSON.parse(localStorage.getItem("coursesData"));
 
@@ -9,22 +130,35 @@ function generateSchedules() {
 	let eliteSchedules = []
 
 	// generate schedules with 100 iterations
-	let iterations = 10;
+	let iterations = 100;
 	for (let i = 0; i < iterations; i++) {
 		// disorder courses list
 		coursesObjArr.sort(() => Math.random() - 0.5);
+		let coursesIds = coursesObjArr.map((_) => _["crsId"]);
+		// validate coursesObjArr not repeated
+		if (!isRepeated(coursesIds)) {
+			// before save in local-storage
+			let coursesDataArrProcessed = JSON.parse(localStorage.getItem("coursesDataProcessed")) || [];
+			// append to the array the new courseProcessed
+			coursesDataArrProcessed.push(coursesIds);
+			// save
+			let coursesDataArraProcessedJSON = JSON.stringify(coursesDataArrProcessed);
+			localStorage.setItem("coursesDataProcessed", coursesDataArraProcessedJSON);
 
-		// generate and get evaluation
-		let [schedule, evaluation, codes, names] = generateSchedule(coursesObjArr);
-		console.log(schedule);
-		console.log(evaluation);
-		console.log(codes);
-		console.log(names);
+			// generate and get evaluation
+			let [schedule, evaluation, codes, names] = generateSchedule(coursesObjArr);
+			
+			// add to the elite schedules
+			if (evaluation >= minCredits && evaluation <= maxCredits) {
+				eliteSchedules.push([schedule, evaluation, codes, names]);
+			}
+		}
 	}
+
+	return eliteSchedules;
 }
 
 function generateSchedule(coursesObjArr) {
-	console.log("Generating schedule!");
 	/* step 1: remove courses with the same Code */
 
 	// get the unique course codes
@@ -94,4 +228,28 @@ function generateSchedule(coursesObjArr) {
 	}
 
 	return [schedule, creditsAcumulator, codesAcumulator, namesAcumulator];
+}
+
+function isRepeated(coursesIds) {
+	// get coursesDataProcessed from local-storage
+	let coursesDataArrProcessed = JSON.parse(localStorage.getItem("coursesDataProcessed")) || [];
+	// save
+	return coursesDataArrProcessed.some(element => element.toString() === coursesIds.toString());
+}
+
+function transposeMatrix(matrix) {
+  // create a new matrix with rows number and columns number inverted
+  let transposedMatrix = new Array(matrix[0].length);
+  for (let i = 0; i < transposedMatrix.length; i++) {
+	  transposedMatrix[i] = new Array(matrix.length);
+  }
+
+  // assign values to transposed matrix
+  for (let i = 0; i < matrix.length; i++) {
+	  for (let j = 0; j < matrix[i].length; j++) {
+		  transposedMatrix[j][i] = matrix[i][j];
+	  }
+  }
+
+  return transposedMatrix;
 }

@@ -149,6 +149,7 @@ function insertRowInCoursesTable(courseObj) {
 			coursesIndexes.push(i);
 		}
 	}
+	//newCourseCellRef.textContent = courseObj["courseHours"][coursesIndexes[0]][0];
 
 	// get span for row
 	let auxSpan = coursesIndexes.length;

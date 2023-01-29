@@ -25,17 +25,21 @@
 		<div class="container-button_prev">
 			<a href="./insert_courses.php"><button id="btn-prev">Volver</button></a>
 		</div>
-		<table class="container-table" id="coursesTable">
-			<!-- head table --!>
-			<tr>
-				<th>CodCurso</td>
-				<th>NonmbreCurso</td>
-				<th>Creditos</td>
-				<th>Grupo</td>
-				<th colspan="3">Horarios</td>
-				<th>Eliminar</td>
-			</tr>
-		</table>
+		<form id="creditsForm" class="container-form_credits" action="">
+			<div class="container-form_credits-min_credits">
+				<label for="min_credits">Creditos Minimos:</label>
+				<input required min="2" max="30" value="20" id="min_credits" type="number" name="min_credits">
+			</div>
+			<div class="container-form_credits-max_credits">
+				<label for="max_credits">Creditos Maximos:</label>
+				<input required min="2" max="30" value="24" id="max_credits" type="number" name="max_credits">
+			</div>
+			<div class="container-form_credits-button_generator">
+				<button id="btn-generator">Generar Horarios</button>
+			</div>
+		</form>
+		<div class="container-tables_container" id="container-tables_container">
+		</div>
 	</div>
 	<script src="../js/schedule_generator.js" type="module"></script>
 </head>

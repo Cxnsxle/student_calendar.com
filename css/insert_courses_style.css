@@ -112,7 +112,7 @@ body {
       border: 1px solid #FEF9EB;
       border-radius: 5px;
       color: #FEF9EB; }
-  .container-button_generator a button {
+  .container-button_generator button {
     margin-top: 20px;
     padding: 10px;
     border: none;
@@ -122,7 +122,7 @@ body {
     outline: none;
     cursor: pointer;
     color: #FEF9EB; }
-    .container-button_generator a button:hover {
+    .container-button_generator button:hover {
       background: #FEF9EB;
       color: #4f2d48; }
 
